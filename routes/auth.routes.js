@@ -6,6 +6,7 @@ const userSchema = require("../model/user.model");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const authorizeUser = require('../middlewares/auth');
+const { response } = require("express");
 
 // Sign In / Login
 router.post("/login", async (req, res, next) => {
@@ -70,4 +71,16 @@ router.post('/register', async (req, res, next) => {
     }
  
 })
+
+router.route('/all-users').get(authorizeUser, (req, res, next) => {
+  userSchema.find((err, data) => {
+    if(err){
+      return next(err)
+    }
+    res.status(200).json(data)
+  });
+})
 module.exports = router
+
+
+// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im9uZUBnbWFpbC5jb20iLCJ1c2VySWQiOiI2MmFiYWI4MDA3ZjI5MzhiNDYyZGNiOGUiLCJpYXQiOjE2NTU0MTg0Mjl9.VizXl2kLG6R8I6_7epFq4pMFVTFZGFNMSJjYO31jtdY

@@ -6,8 +6,12 @@ module.exports = (req, res, next) => {
     try {
         const secretKey = process.env.JWT_SECRET
         const token = req.header('x-auth-token');
-        jwt.verify(token, secretKey);
-        next();
+        const user = jwt.verify(token, secretKey);
+        if(user.email == 'admin@gmail.com'){
+            next();
+        }else{
+            res.status(403).json({message: "This user is forbidden! 🔴"})
+        }
     } catch (error) {
         res.status(401).json({message: "Invalid Token, can not authorize user! 🔴"})
     }
