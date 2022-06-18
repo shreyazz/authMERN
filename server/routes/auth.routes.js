@@ -63,7 +63,7 @@ router.post("/register", async (req, res, next) => {
         message: "Some error occurred during registration of the user! 🔴",
       });
     }
-    res.status(201).json({ message: "User created! 🟢", details: newUser });
+    res.status(201).json({ message: "User created! 🟢" });
   } catch (error) {
     return res
       .status(401)
