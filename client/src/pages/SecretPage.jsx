@@ -11,13 +11,44 @@ import { AiOutlinePlusSquare } from "react-icons/ai";
 const SecretPage = () => {
   const navigate = useNavigate();
   const [userDetails, setUserDetails] = useState([]);
+  const [error, setError] = useState(false)
+  const [success, setSuccess] = useState(false)
   const [resCode, setResCode] = useState(0);
   const [show, setShow] = useState(false);
   const [deleteUserEmail, setDeleteUserEmail] = useState("");
+  const [regData, setRegData] = useState({
+    email: "",
+    name: "",
+    password: "password",
+  });
+  const onChange = (e) =>
+    setRegData({ ...regData, [e.target.name]: e.target.value });
+const addNewUser = async () => {
+    try {
+        let res = await axios.post("http://localhost:8080/api/auth/register", {
+          email: regData.email,
+          password: regData.password,
+          name: regData.name,
+        });
+        console.log(res);
+        setSuccess(true)
+        setTimeout(() => setSuccess(false), 1500)
+      } catch (error) {
+        setTimeout(() => setError(true), 1500)
+
+      }
+}
   const handleClose = () => setShow(false);
   const handleShow = (e) => {
     setDeleteUserEmail(e.target.parentElement.id);
     setShow(true);
+  };
+  const ShowAlert = ({ text, variant }) => {
+    return (
+      <>
+        <Alert variant={variant}>{text}</Alert>
+      </>
+    );
   };
   const showAllUsers = async () => {
     try {
@@ -128,7 +159,7 @@ const SecretPage = () => {
                       onChange={(e) => onChange(e)}
                       name="email"
                     />
-                    <AiOutlinePlusSquare className="add-user" />
+                    <AiOutlinePlusSquare className="add-user" onClick={addNewUser}/>
                   </td>
                 </tr>
               </tbody>
@@ -136,6 +167,12 @@ const SecretPage = () => {
           </div>
         </>
       )}
+       {
+          error && <ShowAlert text="some error occurred while creating an user" variant='danger'/>
+        }
+        {
+          success &&  <ShowAlert text='user created' variant='success'/>
+        }
       {resCode == 403 && (
         <>
           <Alert variant="danger">
