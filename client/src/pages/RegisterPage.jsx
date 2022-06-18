@@ -25,8 +25,6 @@ const RegisterPage = () => {
         name: regData.name,
       });
       console.log(res);
-      if (res.status == 201) {
-      }
       setSuccess(true)
       setTimeout(() => {navigate("/login");}, 1500)
     } catch (error) {
