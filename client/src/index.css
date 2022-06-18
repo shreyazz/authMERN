@@ -7,3 +7,34 @@
 body {
   font-family: sans-serif;
 }
+
+.relative-td{
+  position: relative;
+}
+
+.delete-icon{
+  color: rgba(236, 73, 73, 0.926);
+  font-size: 29px;
+  background-color: rgba(241, 170, 170, 0.73);
+  padding: 0.2rem;
+  border-radius: 4px;
+  position: absolute;
+  right: 10px;
+  cursor: pointer;
+}
+.add-user{
+  color: rgba(73, 236, 149, 0.926);
+  font-size: 29px;
+  background-color: rgba(170, 241, 202, 0.73);
+  padding: 0.2rem;
+  border-radius: 4px;
+  right: 10px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.demo{
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
