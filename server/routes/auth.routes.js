@@ -6,7 +6,6 @@ const userSchema = require("../model/user.model");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const authorizeUser = require("../middlewares/auth");
-const { response } = require("express");
 
 // Sign In / Login
 router.post("/login", async (req, res, next) => {
@@ -27,7 +26,7 @@ router.post("/login", async (req, res, next) => {
       return res.status(401).json({ message: "Auth Failed" });
     }
     let token = jwt.sign(
-      { email: findUser.email, userId: findUser._id },
+      { email: findUser.email, userId: findUser._id, name: findUser.name },
       secretKey
     );
     return res
@@ -80,4 +79,26 @@ router.route("/all-users").get(authorizeUser, (req, res, next) => {
     res.status(200).json(data);
   });
 });
+
+router.route('/delete-user').post((req, res, next) => {
+  
+  const {email} = req.body;
+  try {
+    if(userSchema.findOne({email: email})){
+      userSchema.findOneAndDelete({email: email}, (err, data) => {
+        if(err){
+          return next(err);
+        }
+        res.json({message: "User deleted!", data: data});
+      });
+    }else{
+      return res.json({message: 'user not found'})
+    }
+  } catch (error) {
+    return res.json({message:'some error occurred while deleting user! '})
+    
+  }
+  
+
+})
 module.exports = router;
