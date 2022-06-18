@@ -112,7 +112,6 @@ const addNewUser = async () => {
       {resCode == 200 && (
         <>
           <div className="container">
-            <p>delete user is: {deleteUserEmail}</p>
             <h1>This is the list of all the users</h1>
 
             <Table striped bordered hover>
